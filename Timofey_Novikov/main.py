@@ -41,9 +41,20 @@ class ReviewAnalysisAgent:
         # Initialize agent coordinator
         self.agent_coordinator = AgentCoordinator()
         
-        # Validate environment
-        if not os.getenv("OPENAI_API_KEY"):
-            raise ValueError("OPENAI_API_KEY not found in environment variables")
+        # Validate environment with graceful degradation
+        from src.config.enhanced_config import enhanced_config
+        from src.utils.validation import validator
+        
+        self.config = enhanced_config
+        self.validator = validator
+        
+        # Show configuration warnings but don't fail
+        warnings = self.config.get_warnings()
+        for warning in warnings:
+            print(f"⚠️  {warning}")
+        
+        if not self.config.is_openai_available():
+            print("ℹ️  System will use deterministic and agent fallbacks for analysis.")
         
         print(f"✅ {self.name} v{self.version} initialized")
         print(f"📋 Capabilities: {', '.join(self.capabilities)}")
@@ -61,11 +72,16 @@ class ReviewAnalysisAgent:
             Dict containing combined analysis results
         """
         
-        if not review_text or not review_text.strip():
+        # Validate and sanitize input
+        is_valid, error_msg = self.validator.validate_review_text(review_text)
+        if not is_valid:
             return {
-                "error": "Empty review text provided",
+                "error": error_msg,
                 "timestamp": time.time()
             }
+        
+        # Use sanitized text
+        review_text = self.validator.sanitize_text(review_text)
         
         print(f"🤖 Processing review ({len(review_text)} characters)...")
         start_time = time.time()

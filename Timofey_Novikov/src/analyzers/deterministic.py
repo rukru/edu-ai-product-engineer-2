@@ -99,9 +99,11 @@ def extract_keywords_tfidf(text: str, max_features: int = 10) -> List[Tuple[str,
 def analyze_sentiment(text: str) -> Dict[str, Any]:
     """Analyze sentiment using VADER with Russian language support"""
     
-    # Russian positive/negative keywords for basic sentiment detection (expanded)
-    russian_positive = ['отлично', 'хорошо', 'прекрасно', 'удобно', 'нравится', 'люблю', 'классно', 'супер', 'замечательно', 'великолепно', 'благодарность', 'спасибо', 'лучший', 'интересно', 'полезно', 'рекомендую', 'расширил', 'возможность']
-    russian_negative = ['плохо', 'ужасно', 'отстой', 'проблема', 'ошибка', 'баг', 'глюк', 'вылетает', 'тормозит', 'косячный', 'косяк', 'невозможно', 'отвратительно', 'кошмар', 'разочарован', 'жалоба', 'навязчиво', 'думайте', 'неделями', 'напоминать', 'впарит', 'претензией']
+    # Import shared sentiment keywords
+    from ..constants import SENTIMENT_KEYWORDS
+    
+    russian_positive = SENTIMENT_KEYWORDS['russian_positive']
+    russian_negative = SENTIMENT_KEYWORDS['russian_negative']
     
     text_lower = text.lower()
     

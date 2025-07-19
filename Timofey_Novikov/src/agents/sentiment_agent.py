@@ -28,25 +28,14 @@ class SentimentAgent:
         # Basic sentiment analysis using keywords
         text_lower = text.lower()
         
-        # Russian and English sentiment keywords
-        positive_words = [
-            # English
-            'good', 'great', 'excellent', 'amazing', 'love', 'like', 'best', 'awesome', 'fantastic', 'wonderful',
-            'perfect', 'brilliant', 'outstanding', 'superb', 'marvelous', 'incredible', 'fabulous', 'terrific',
-            # Russian
-            'отлично', 'хорошо', 'прекрасно', 'удобно', 'нравится', 'люблю', 'классно', 'супер', 'замечательно', 
-            'великолепно', 'благодарность', 'спасибо', 'лучший', 'интересно', 'полезно', 'рекомендую'
-        ]
+        # Import shared sentiment keywords
+        from ..constants import SENTIMENT_KEYWORDS
         
-        negative_words = [
-            # English  
-            'bad', 'terrible', 'awful', 'horrible', 'hate', 'worst', 'crash', 'bug', 'problem', 'issue',
-            'slow', 'broken', 'useless', 'disappointing', 'frustrating', 'annoying', 'poor', 'fail',
-            # Russian (expanded)
-            'плохо', 'ужасно', 'отстой', 'проблема', 'ошибка', 'баг', 'глюк', 'вылетает', 'тормозит', 
-            'косячный', 'косяк', 'невозможно', 'отвратительно', 'кошмар', 'разочарован', 'жалоба', 'навязчиво',
-            'думайте', 'неделями', 'напоминать', 'впарит', 'претензией', 'отвечает', 'ответим'
-        ]
+        positive_words = (SENTIMENT_KEYWORDS['english_positive'] + 
+                         SENTIMENT_KEYWORDS['russian_positive'])
+        
+        negative_words = (SENTIMENT_KEYWORDS['english_negative'] + 
+                         SENTIMENT_KEYWORDS['russian_negative'])
         
         # Count sentiment words
         positive_count = sum(1 for word in positive_words if word in text_lower)

@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-This project demonstrates the comparison between deterministic and probabilistic (LLM-powered) programming paradigms through a reviews analysis agent. The core objective is to build an agent using OpenAI Agents SDK that analyzes AppStore reviews with both approaches and generates PM-style reports.
+This project demonstrates the comparison between deterministic and probabilistic (LLM-powered) programming paradigms through a reviews analysis agent. The core objective is to build an agent using OpenAI Agents SDK that analyzes AppStore reviews (using Skyeng app as example) with both approaches and generates PM-style reports.
 
 ### 🎯 Key Features
 
